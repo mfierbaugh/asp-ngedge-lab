@@ -10,17 +10,17 @@ asn: 65000
 bgp_rrc: true
 bgp_rr: false
 netflow: false
-xrd: true
+xrd: false
 
 optics:
   - {enable: false}
 
 network_interfaces:
-  - {name: GigabitEthernet0/0/0/0, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: true, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
-  - {name: GigabitEthernet0/0/0/1, descr: "ASP - CORE.102", remote_id: 102, vlan: 0, unnumbered: true, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
-  - {name: GigabitEthernet0/0/0/2, descr: "ASP - PE.23", remote_id: 23, vlan: 0, unnumbered: true, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}  
-#  - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.13", remote_id: 13, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
-#  - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.14", remote_id: 14, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
+  - {name: HundredGigE0/0/0/0, descr: "ASP - CORE.104", remote_id: 104, vlan: 0, unnumbered: true, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: HundredGigE0/0/0/1, descr: "ASP - CORE.102", remote_id: 102, vlan: 0, unnumbered: true, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}
+  - {name: HundredGigE0/0/0/2, descr: "ASP - PE.23", remote_id: 23, vlan: 0, unnumbered: true, igp_inst: ASP_LAB, color: BLUE, igp_metric: 100, te_metric: 120, mtu: 8982}  
+#  - {name: HundredGigE0/0/0/3, descr: "ASP - CE.13", remote_id: 13, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
+#  - {name: HundredGigE0/0/0/4, descr: "ASP - CE.14", remote_id: 14, vlan: 0, unnumbered: false, igp_inst: ASP_LAB, color: RED, igp_metric: 1000, te_metric: 120, mtu: 8982}
 
 Flex_Algo_Membership: {128, 129, 130}
 
@@ -93,12 +93,12 @@ services:
   l3_interfaces:
     - {name: Loopback128, descr: "ASP BLUE VRF INTERFACE", vlan: 0, ipv4: 10.24.128.1/32, ipv6: '2000::10:24:128:1/128'}
     - {name: Loopback129, descr: "ASP RED VRF INTERFACE", vlan: 0, ipv4: 10.24.129.1/32, ipv6: '2000::10:24:129:1/128'}
-    - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.13 GRT Interface", vlan: 100, ipv4: 10.13.24.1/31, ipv6: '2001::10:13:24:1/127'}
-    - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.13 VRF BLUE", vlan: 101, ipv4: 10.13.24.1/31, ipv6: '2001::10:13:24:1/127'}
-    - {name: GigabitEthernet0/0/0/3, descr: "ASP - CE.13 VRF RED", vlan: 102, ipv4: 10.13.24.1/31, ipv6: '2001::10:13:24:1/127'}
-    - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.14 GRT Interface", vlan: 100, ipv4: 10.14.24.1/31, ipv6: '2001::10:14:24:1/127'}
-    - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.14 VRF BLUE", vlan: 101, ipv4: 10.14.24.1/31, ipv6: '2001::10:14:24:1/127'}
-    - {name: GigabitEthernet0/0/0/4, descr: "ASP - CE.14 VRF RED", vlan: 102, ipv4: 10.14.24.1/31, ipv6: '2001::10:14:24:1/127'}
+    - {name: HundredGigE0/0/0/3, descr: "ASP - CE.13 GRT Interface", vlan: 100, ipv4: 10.13.24.1/31, ipv6: '2001::10:13:24:1/127'}
+    - {name: HundredGigE0/0/0/3, descr: "ASP - CE.13 VRF BLUE", vlan: 101, ipv4: 10.13.24.1/31, ipv6: '2001::10:13:24:1/127'}
+    - {name: HundredGigE0/0/0/3, descr: "ASP - CE.13 VRF RED", vlan: 102, ipv4: 10.13.24.1/31, ipv6: '2001::10:13:24:1/127'}
+    - {name: HundredGigE0/0/0/4, descr: "ASP - CE.14 GRT Interface", vlan: 100, ipv4: 10.14.24.1/31, ipv6: '2001::10:14:24:1/127'}
+    - {name: HundredGigE0/0/0/4, descr: "ASP - CE.14 VRF BLUE", vlan: 101, ipv4: 10.14.24.1/31, ipv6: '2001::10:14:24:1/127'}
+    - {name: HundredGigE0/0/0/4, descr: "ASP - CE.14 VRF RED", vlan: 102, ipv4: 10.14.24.1/31, ipv6: '2001::10:14:24:1/127'}
 
   evpn_vpws:
     # - { name: RED_POLICY_DC1_POLICY_DC2, interface: HundredGigE0/0/0/16, evi: 106, sr_policy: POLICY_RED_PLANE }
@@ -113,8 +113,8 @@ services:
       srv6_locator: ASP_BLUE_Plane
       interfaces: 
         - { name: Loopback128 }
-        - { name: GigabitEthernet0/0/0/3.101}
-        - { name: GigabitEthernet0/0/0/4.101}
+        - { name: HundredGigE0/0/0/3.101}
+        - { name: HundredGigE0/0/0/4.101}
       bgp_neighbors:
         - { enable: true, ipv4: 10.13.24.0, remote_asn: 65200, rp4_in: pass-all, rp4_out: pass-all }
         - { enable: true, ipv4: 10.14.24.0, remote_asn: 65200, rp4_in: pass-all, rp4_out: pass-all }
@@ -125,8 +125,8 @@ services:
       srv6_locator: ASP_RED_Plane
       interfaces: 
         - { name: Loopback129 }
-        - { name: GigabitEthernet0/0/0/3.102}
-        - { name: GigabitEthernet0/0/0/4.102}
+        - { name: HundredGigE0/0/0/3.102}
+        - { name: HundredGigE0/0/0/4.102}
       bgp_neighbors:
         - { enable: true, ipv4: 10.13.24.0, remote_asn: 65200, rp4_in: pass-all, rp4_out: pass-all }
         - { enable: true, ipv4: 10.14.24.0, remote_asn: 65200, rp4_in: pass-all, rp4_out: pass-all }
