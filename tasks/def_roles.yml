@@ -1,0 +1,60 @@
+---
+- name: Configure Baseconfig Dataplane for all devices
+  hosts: routers
+  gather_facts: no
+  connection: local
+
+  roles:
+  - baseconf
+  - Data Plane
+  - BFD
+
+- name: Configure Provider Edge
+  hosts: ProviderEdge
+  gather_facts: no
+  connection: local
+
+  roles:
+  - IGP
+  - BGP
+  - MDT
+  - SRv6
+  - SR-PM
+  - SR-TE
+  - PCE
+#  - QOS
+  - SERVICES
+
+- name: Configure Customer Edge
+  hosts: CustomerEdge
+  gather_facts: no
+  connection: local
+
+  roles:
+  - IGP
+  - BGP
+  - SERVICES
+
+- name: Configure Core
+  hosts: Core
+  gather_facts: no
+  connection: local
+
+  roles:
+  - IGP
+  - MDT
+  - SRv6
+  - SR-PM
+  - PCE
+#  - QOS
+
+- name: Configure SRPCE and Route Reflectors
+  hosts: VRR
+  gather_facts: no
+  connection: local
+
+  roles:
+  - IGP
+  - MDT
+  - BGP
+  - PCE

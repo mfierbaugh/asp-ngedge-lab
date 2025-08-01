@@ -1,0 +1,5 @@
+{% if bgp_rr %}
+{% include "include/bgp_rr.j2" %}
+{% else %}
+{% include "include/bgp.j2" %}
+{% endif %}

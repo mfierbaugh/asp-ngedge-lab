@@ -1,0 +1,55 @@
+{% if igp == 'isis' %}
+{% for isis in igp_instances %}
+router isis {{ isis.name }}
+ address-family ipv4 unicast
+  mpls traffic-eng level-2-only
+  mpls traffic-eng router-id Loopback0
+{% endfor %}
+{% endif %}
+!
+!
+ipv4 unnumbered mpls traffic-eng Loopback0
+mpls traffic-eng
+!
+segment-routing
+ traffic-eng
+{% for interface in network_interfaces %}
+  interface {{ interface.name }}
+   metric {{ interface.te_metric }}
+{% endfor %}
+ !
+{% for policy in sr_policy.manual if policy is defined %}
+  policy {{policy.name}}
+{% if srv6 %}
+   srv6
+    locator {{ policy.locator }} binding-sid dynamic behavior ub6-insert-reduced
+   !
+   color {{policy.color}} end-point ipv6 {{policy.endpoint}}
+{% elif sr %}
+   color {{policy.color}} end-point ipv4 {{policy.endpoint}}
+{% endif %}
+   candidate-paths
+    preference 100
+     dynamic
+{% if policy.pce %}
+      pcep
+      !
+{% endif %}
+    !
+   !
+  !
+{% endfor %}
+{# {% for policy in sr_policy.odn if policy is defined %}
+  on-demand color {{ policy.color }}
+   dynamic
+    metric
+     type {{ policy.metric_type }}
+    !
+   !
+   constraints
+    segments
+     sid-algorithm {{ policy.algo }}
+    !
+   !
+  !
+{% endfor %} #}

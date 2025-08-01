@@ -1,0 +1,209 @@
+name: asp_ngedge_lab
+
+mgmt:
+  network: mgmt_intf
+  bridge: mgmt_bridge
+  ipv4-subnet: 198.18.128.0/18
+  ipv4-gw: 198.18.130.5
+
+topology:
+  kinds:
+    c8000:
+      kind: cisco_c8000
+      image: 8712-mod-mpa-16h:25.2.1
+      startup-config: configs/base_config.cfg
+      image-pull-policy: Never
+      env:
+        CLAB_MGMT_VRF: Mgmt-intf
+        IPv4_GW: 198.18.128.1
+
+    xrd:
+      kind: cisco_xrd
+      startup-config: configs/xrd_config.cfg
+      image: ${XRD_IMAGE:=ios-xr/xrd-control-plane}:${XRD_VERSION:=25.2.1}
+      env:
+        CLAB_MGMT_VRF: Mgmt-intf
+        IPv4_GW: 198.18.128.1
+
+  nodes:
+    CORE.101:
+      kind: xrd
+      mgmt-ipv4: 198.18.130.101
+      labels:
+        graph-posX: "775"
+        graph-posY: "175"
+        graph-groupLabelPos: bottom-center
+
+    CORE.102:
+      kind: xrd
+      mgmt-ipv4: 198.18.130.102
+      labels:
+        graph-posX: "985"
+        graph-posY: "175"
+        graph-groupLabelPos: bottom-center
+
+    CORE.103:
+      kind: xrd
+      mgmt-ipv4: 198.18.130.103
+      labels:
+        graph-posX: "775"
+        graph-posY: "385"
+        graph-groupLabelPos: bottom-center
+
+    CORE.104:
+      kind: xrd
+      mgmt-ipv4: 198.18.130.104
+      labels:
+        graph-posX: "985"
+        graph-posY: "385"
+        graph-groupLabelPos: bottom-center
+
+    vRR-SR-PCE.51:
+      kind: xrd
+      mgmt-ipv4: 198.18.130.51
+      labels:
+        graph-posX: "835"
+        graph-posY: "125"
+        graph-groupLabelPos: bottom-center
+
+    vRR-SR-PCE.52:
+      kind: xrd
+      mgmt-ipv4: 198.18.130.52
+      labels:
+        graph-posX: "935"
+        graph-posY: "125"
+        graph-groupLabelPos: bottom-center
+
+    PE.21:
+      kind: c8000
+      mgmt-ipv4: 198.18.130.21
+      labels:
+        graph-posX: "635"
+        graph-posY: "175"
+        graph-groupLabelPos: bottom-center
+
+    PE.22:
+      kind: c8000
+      mgmt-ipv4: 198.18.130.22
+      labels:
+        graph-posX: "635"
+        graph-posY: "385"
+        graph-groupLabelPos: bottom-center
+
+    PE.23:
+      kind: c8000
+      mgmt-ipv4: 198.18.130.23
+      labels:
+        graph-posX: "1105"
+        graph-posY: "175"
+        graph-groupLabelPos: bottom-center
+
+    PE.24:
+      kind: c8000
+      mgmt-ipv4: 198.18.130.24
+      labels:
+        graph-posX: "1105"
+        graph-posY: "385"
+        graph-groupLabelPos: bottom-center
+
+    CE.11:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.11
+      labels:
+        graph-posX: "475"
+        graph-posY: "175"
+        graph-groupLabelPos: bottom-center
+
+    CE.12:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.12
+      labels:
+        graph-posX: "475"
+        graph-posY: "375"
+        graph-groupLabelPos: bottom-center
+
+    CE.13:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.13
+      labels:
+        graph-posX: "1265"
+        graph-posY: "175"
+        graph-groupLabelPos: bottom-center
+
+    CE.14:
+      kind: xrd
+      startup-config: configs/xrd_config.cfg
+      mgmt-ipv4: 198.18.130.14
+      labels:
+        graph-posX: "1265"
+        graph-posY: "385"
+        graph-groupLabelPos: bottom-center
+
+    trex1:
+      kind: linux
+      image: mfierbau/cisco-trex:3.06
+      image-pull-policy: Never
+      mgmt-ipv4: 198.18.130.8
+      exec:
+        - ip addr add 172.100.0.2/24 dev eth1
+        - ip addr add 172.200.0.2/24 dev eth2
+      binds:
+        - configs/trex1_cfg.yaml:/etc/trex_cfg.yaml
+      labels:
+        graph-posX: "885"
+        graph-posY: "85"
+        graph-groupLabelPos: bottom-center
+
+    trex2:
+      kind: linux
+      image: mfierbau/cisco-trex:3.06
+      image-pull-policy: Never
+      mgmt-ipv4: 198.18.130.9
+      exec:
+        - ip addr add 172.100.0.2/24 dev eth1
+        - ip addr add 172.200.0.2/24 dev eth2
+      binds:
+        - configs/trex2_cfg.yaml:/etc/trex_cfg.yaml
+      labels:
+        graph-posX: "885"
+        graph-posY: "475"
+        graph-groupLabelPos: bottom-center
+
+  links:
+    - endpoints: [ "CORE.101:Gi0-0-0-0", "CORE.102:Gi0-0-0-0" ]
+    - endpoints: [ "CORE.101:Gi0-0-0-1", "CORE.103:Gi0-0-0-1" ]
+    - endpoints: [ "CORE.101:Gi0-0-0-2", "CORE.104:Gi0-0-0-2" ]
+    - endpoints: [ "CORE.102:Gi0-0-0-1", "CORE.104:Gi0-0-0-2" ]
+    - endpoints: [ "CORE.103:Gi0-0-0-0", "CORE.104:Gi0-0-0-0" ]
+    - endpoints: [ "CORE.103:Gi0-0-0-2", "CORE.102:Gi0-0-0-2" ]
+    - endpoints: [ "PE.21:Hu0_0_0_0", "CORE.101:Gi0-0-0-4" ]
+    - endpoints: [ "PE.21:Hu0_0_0_1", "CORE.103:Gi0-0-0-4" ]
+    - endpoints: [ "PE.22:Hu0_0_0_0", "CORE.103:Gi0-0-0-5" ]
+    - endpoints: [ "PE.22:Hu0_0_0_1", "CORE.101:Gi0-0-0-5" ]
+    - endpoints: [ "PE.23:Hu0_0_0_0", "CORE.102:Gi0-0-0-4" ]
+    - endpoints: [ "PE.23:Hu0_0_0_1", "CORE.104:Gi0-0-0-4" ]
+    - endpoints: [ "PE.24:Hu0_0_0_0", "CORE.102:Gi0-0-0-5" ]
+    - endpoints: [ "PE.24:Hu0_0_0_1", "CORE.104:Gi0-0-0-5" ]
+    - endpoints: [ "PE.21:Hu0_0_0_2", "PE.22:Hu0_0_0_2" ]
+    - endpoints: [ "PE.23:Hu0_0_0_2", "PE.24:Hu0_0_0_2" ]
+    - endpoints: [ "PE.21:Hu0_0_0_3", "CE.11:Gi0-0-0-0" ]
+    - endpoints: [ "PE.21:Hu0_0_0_4", "CE.12:Gi0-0-0-0" ]
+    - endpoints: [ "PE.22:Hu0_0_0_3", "CE.11:Gi0-0-0-1" ]
+    - endpoints: [ "PE.22:Hu0_0_0_4", "CE.12:Gi0-0-0-1" ]
+    - endpoints: [ "PE.23:Hu0_0_0_3", "CE.13:Gi0-0-0-0" ]
+    - endpoints: [ "PE.23:Hu0_0_0_4", "CE.14:Gi0-0-0-0" ]
+    - endpoints: [ "PE.24:Hu0_0_0_3", "CE.13:Gi0-0-0-1" ]
+    - endpoints: [ "PE.24:Hu0_0_0_4", "CE.14:Gi0-0-0-1" ]
+    - endpoints: [ "CE.11:Gi0-0-0-2", "CE.12:Gi0-0-0-2" ]
+    - endpoints: [ "CE.13:Gi0-0-0-2", "CE.14:Gi0-0-0-2" ]
+    - endpoints: [ "vRR-SR-PCE.51:Gi0-0-0-0", "CORE.101:Gi0-0-0-3" ]
+    - endpoints: [ "vRR-SR-PCE.51:Gi0-0-0-1", "CORE.103:Gi0-0-0-3" ]
+    - endpoints: [ "vRR-SR-PCE.52:Gi0-0-0-0", "CORE.102:Gi0-0-0-3" ]
+    - endpoints: [ "vRR-SR-PCE.52:Gi0-0-0-1", "CORE.104:Gi0-0-0-3" ]
+    - endpoints: [ "trex1:eth1", "CE.11:Gi0-0-0-3" ]
+    - endpoints: [ "trex1:eth2", "CE.13:Gi0-0-0-3" ]
+    - endpoints: [ "trex2:eth1", "CE.12:Gi0-0-0-3" ]
+    - endpoints: [ "trex2:eth2", "CE.14:Gi0-0-0-3" ]

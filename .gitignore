@@ -1,0 +1,4 @@
+compiled/
+clab-asp_srv6_lab/
+.*
+!.gitignore
