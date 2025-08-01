@@ -20,7 +20,7 @@
   - MDT
   - SRv6
   - SR-PM
-  - SR-TE
+  # - SR-TE
   - PCE
 #  - QOS
   - SERVICES

@@ -32,7 +32,22 @@ router isis {{ isis.name }}
 {% if Flex  %}
 {% for Aff in Flex_Affinities %}
  affinity-map {{ Aff.name }} bit-position {{ Aff.BitPos }}
+ address-family ipv6 unicast
+ metric-style wide
+ advertise link attributes
+ router-id Loopback0  
+ microloop avoidance segment-routing
+ microloop avoidance rib-update-delay 2000
+ segment-routing srv6
+{% for locator in srv6_locators %}
+{% if locator.algo is not defined or locator.algo in Flex_Algo_Membership %}
+  locator {{ locator.name }}
+  !
+{% endif %}
 {% endfor %}
+{% endfor %}
+  !
+ !
 {% for algo in Flex_Algos %}
 {% if algo.name in Flex_Algo_Membership %}
  flex-algo {{ algo.name }}
@@ -47,18 +62,7 @@ router isis {{ isis.name }}
 {% endif %}
 {% endfor %}
 {% endif %}
- address-family ipv6 unicast
-  metric-style wide
-  advertise link attributes
-  router-id Loopback0  
-  microloop avoidance segment-routing
-  microloop avoidance rib-update-delay 2000
-  segment-routing srv6
-{% for locator in srv6_locators %}
-{% if locator.algo is not defined or locator.algo in Flex_Algo_Membership %}
-   locator {{ locator.name }}
-{% endif %}
-{% endfor %}
+!
 {% if lfa %}
 {% for interface in network_interfaces %}
  interface {{ interface.name }}
@@ -66,6 +70,8 @@ router isis {{ isis.name }}
    fast-reroute per-prefix
    fast-reroute per-prefix ti-lfa level 2
    fast-reroute per-prefix tiebreaker node-protecting index 100
+   !
+  !
 {% endfor %} 
 {% endif %}
 {% endfor %}

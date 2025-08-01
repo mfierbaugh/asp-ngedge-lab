@@ -68,6 +68,7 @@ route_reflectors:
 
 sr_policy:
   manual:
+  # temp disable - issue w !!% Invalid argument: SRV6 policy does not support binding sid behavior: 71
     - { name: TEST_SR_POLICY, color: 100, endpoint: fcbb:bb00:22::1, locator: ASP_LAB, pce: true }
     - { name: POLICY_RED_PLANE, color: 106, endpoint: fcbb:bb00:22::1, locator: ASP_RED_Plane, pce: true }
 
