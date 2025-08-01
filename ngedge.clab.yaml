@@ -176,7 +176,7 @@ topology:
     - endpoints: [ "CORE.101:Gi0-0-0-0", "CORE.102:Gi0-0-0-0" ]
     - endpoints: [ "CORE.101:Gi0-0-0-1", "CORE.103:Gi0-0-0-1" ]
     - endpoints: [ "CORE.101:Gi0-0-0-2", "CORE.104:Gi0-0-0-2" ]
-    - endpoints: [ "CORE.102:Gi0-0-0-1", "CORE.104:Gi0-0-0-2" ]
+    - endpoints: [ "CORE.102:Gi0-0-0-1", "CORE.104:Gi0-0-0-1" ]
     - endpoints: [ "CORE.103:Gi0-0-0-0", "CORE.104:Gi0-0-0-0" ]
     - endpoints: [ "CORE.103:Gi0-0-0-2", "CORE.102:Gi0-0-0-2" ]
     - endpoints: [ "PE.21:Hu0_0_0_0", "CORE.101:Gi0-0-0-4" ]
